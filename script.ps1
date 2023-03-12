@@ -1,5 +1,10 @@
+<#
+Developed by Keil Carpenter
+Email: keil.carpenter@kiwirail.co.nz
+For internal use only
+#>
 
-# # Checks for an internet connection every 5 seconds before proceeding
+# Checks for an internet connection every 5 seconds before proceeding
 [bool] $connected = $false;
 if(!(test-connection 8.8.8.8 -quiet -Count 1)) {
     Write-Host "No internet connection. Please connect to a network."
