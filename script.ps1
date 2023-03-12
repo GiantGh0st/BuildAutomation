@@ -1,11 +1,11 @@
 
-# Check for an active internet connection before proceeding
+# # Checks for an internet connection every 5 seconds before proceeding
 [bool] $connected = $false;
 if(!(test-connection 8.8.8.8 -quiet -Count 1)) {
     Write-Host "No internet connection. Please connect to a network."
     while(!$connected){
         if(!(test-connection 8.8.8.8 -quiet -Count 1)){
-            start-sleep -seconds 1;
+            start-sleep -seconds 5;
         }else{
             $connected = $true;
         }
@@ -13,9 +13,9 @@ if(!(test-connection 8.8.8.8 -quiet -Count 1)) {
     $connected = $true;
 }
 
-# Installs nuget package manager
+# Checks if nuget is installed and if not it will install it
 try{
-    Install-PackageProvider nuget -force -ForceBootstrap #Checks if nuget is installed and if not it will install it 
+    Install-PackageProvider nuget -force -ForceBootstrap  
 }catch{
     Write-Host "Something went wrong"
     Write-Host $_
