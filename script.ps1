@@ -28,8 +28,20 @@ try{
 
 # Installs autopilot package from nuget
 # TODO: Error handling
-Install-Script get-windowsautopilotinfo -Force
+try{
+    Install-Script get-windowsautopilotinfo -Force
+}catch{
+    Write-Host "Something went wrong"
+    Write-Host $_
+}
 
 # Enroll the device
 # TODO: error handling
-get-windowsautopilotinfo.ps1 -Online
+try {
+    get-windowsautopilotinfo.ps1 -Online
+}
+catch {
+    Write-Host "Something went wrong"
+    Write-Host $_
+}
+
