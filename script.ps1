@@ -6,10 +6,10 @@ For internal use only
 
 # Checks for an internet connection every 5 seconds before proceeding
 [bool] $connected = $false;
-if(!(test-connection 8.8.8.8 -quiet -Count 1)) {
+if(!(test-connection 8.8.8.8 -ErrorAction Ignore -Count 1)) {
     Write-Host "No internet connection. Please connect to a network."
     while(!$connected){
-        if(!(test-connection 8.8.8.8 -quiet -Count 1)){
+        if(!(test-connection 8.8.8.8 -ErrorAction Ignore -Count 1)){
             start-sleep -seconds 5;
         }else{
             $connected = $true;
@@ -22,7 +22,14 @@ if(!(test-connection 8.8.8.8 -quiet -Count 1)) {
 try{
     Install-PackageProvider nuget -force -ForceBootstrap  
 }catch{
-    Write-Host "Something went wrong"
+    # If an exception is caught, ask the user if they want to view detailed error info, if not then exit the script.
+    $viewErrorInfo = Read-Host "Something went wrong while install nuget. Please revert to the manual method of enrollment. Would you like to view a detailed error description? [y/n]"
+    while($viewErrorInfo -ne "y"){
+        if($viewErrorInfo -eq "n"){
+            exit
+        }
+        $viewErrorInfo = Read-Host "Something went wrong while install nuget. Please revert to the manual method of enrollment. Would you like to view a detailed error description? [y/n]"
+    }
     Write-Host $_
 }
 
@@ -31,7 +38,14 @@ try{
 try{
     Install-Script get-windowsautopilotinfo -Force
 }catch{
-    Write-Host "Something went wrong"
+     # If an exception is caught, ask the user if they want to view detailed error info, if not then exit the script.
+    $viewErrorInfo = Read-Host "Something went wrong while installing the autopilot script. Please revert to the manual method of enrollment. Would you like to view a detailed error description? [y/n]"
+    while($viewErrorInfo -ne "y"){
+        if($viewErrorInfo -eq "n"){
+            exit
+        }
+        $viewErrorInfo = Read-Host "Something went wrong while installing the autopilot script. Please revert to the manual method of enrollment. Would you like to view a detailed error description? [y/n]"
+    }
     Write-Host $_
 }
 
@@ -41,7 +55,14 @@ try {
     get-windowsautopilotinfo.ps1 -Online
 }
 catch {
-    Write-Host "Something went wrong"
+    # If an exception is caught, ask the user if they want to view detailed error info, if not then exit the script.
+    $viewErrorInfo = Read-Host "Something went wrong when calling the autopilot script. Please revert to the manual method of enrollment. Would you like to view a detailed error description? [y/n]"
+    while($viewErrorInfo -ne "y"){
+        if($viewErrorInfo -eq "n"){
+            exit
+        }
+        $viewErrorInfo = Read-Host "Something went wrong when calling the autopilot script. Please revert to the manual method of enrollment. Would you like to view a detailed error description? [y/n]"
+    }
     Write-Host $_
 }
 
