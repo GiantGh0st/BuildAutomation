@@ -36,6 +36,7 @@ try{
 # Installs autopilot package from nuget
 # TODO: Error handling
 try{
+    Clear-Host
     Install-Script get-windowsautopilotinfo -Force
 }catch{
      # If an exception is caught, ask the user if they want to view detailed error info, if not then exit the script.
@@ -52,6 +53,7 @@ try{
 # Enroll the device
 # TODO: error handling
 try {
+    Clear-Host
     get-windowsautopilotinfo.ps1 -Online
 }
 catch {
@@ -65,4 +67,6 @@ catch {
     }
     Write-Host $_
 }
-
+Clear-Host
+Read-Host "Device has been enrolled. Press 'enter' to continue!"
+exit
